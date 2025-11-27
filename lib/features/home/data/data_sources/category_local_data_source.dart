@@ -7,6 +7,7 @@ class CategoryLocalDataSource {
   final CacheHelper cacheHelper;
   CategoryLocalDataSource({required this.cacheHelper});
   final String cachedCategoryKey = 'CACHED_CATEGORY_KEY';
+  final String cachedCityKey = 'CACHED_CITY_KEY';
   Future<void> cacheCategory(CategoryModel? categoryModel) async {
     if (categoryModel != null) {
       await cacheHelper.saveData(
@@ -14,7 +15,7 @@ class CategoryLocalDataSource {
         value: json.encode(categoryModel.toJson()),
       );
     } else {
-      throw CacheException(
+      throw CacheExeption(
         errorMessage: "No Internet connection and no cached data available",
       );
     }
@@ -26,7 +27,7 @@ class CategoryLocalDataSource {
       final jsonMap = json.decode(jsonString);
       return CategoryModel.fromJson(jsonMap);
     } else {
-      throw CacheException(
+      throw CacheExeption(
         errorMessage: "No Internet connection and no cached data available",
       );
     }

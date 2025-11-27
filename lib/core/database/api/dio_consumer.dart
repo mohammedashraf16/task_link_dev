@@ -1,59 +1,97 @@
 import 'package:dio/dio.dart';
 import 'package:task_link_dev/core/database/api/api_consumer.dart';
 import 'package:task_link_dev/core/database/api/end_points.dart';
+import 'package:task_link_dev/core/errors/exceptions.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;
 
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndPoints.baserUrl;
+    dio.interceptors.add(
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        requestHeader: true,
+        responseHeader: true,
+        error: true,
+        request: true,
+      ),
+    );
   }
-
   @override
-  Future delete(
+  Future<void> delete(
     String path, {
-    Object? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
-  }) {
-    // TODO: implement delete
-    throw UnimplementedError();
-  }
-
-  @override
-  Future get(
-    String path, {
-    Object? data,
-    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    bool isFromData = false,
   }) async {
     try {
-      var res = await dio.get(
+      final response = await dio.delete(
         path,
+        data: isFromData ? FormData.fromMap(data) : data,
         queryParameters: queryParameters,
-        data: data,
       );
-      return res.data;
-    } catch (e) {}
+      return response.data;
+    } on DioException catch (e) {
+      handleDioException(e);
+    }
   }
 
   @override
-  Future patch(
+  Future<void> get(
     String path, {
-    data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
-    bool isFormData = false,
-  }) {
-    // TODO: implement patch
-    throw UnimplementedError();
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      final response = await dio.get(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: headers != null ? Options(headers: headers) : null,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      handleDioException(e);
+    }
   }
 
   @override
-  Future post(
+  Future<void> patch(
     String path, {
-    data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
     bool isFormData = false,
-  }) {
-    // TODO: implement post
-    throw UnimplementedError();
+  }) async {
+    try {
+      final response = await dio.patch(
+        path,
+        data: isFormData ? FormData.fromMap(data) : data,
+        queryParameters: queryParameters,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      handleDioException(e);
+    }
+  }
+
+  @override
+  Future<void> post(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    bool isFormData = false,
+  }) async {
+    final response = await dio.post(
+      path,
+      data: isFormData ? FormData.fromMap(data) : data,
+      queryParameters: queryParameters,
+    );
+    return response.data;
   }
 }

@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
-
-import 'error_model.dart';
+import 'package:task_link_dev/core/errors/error_model.dart';
 
 //!ServerException
 class ServerException implements Exception {
   final ErrorModel errorModel;
   ServerException(this.errorModel);
 }
-//!CacheException
-class CacheException implements Exception {
+
+//!CacheExeption
+class CacheExeption implements Exception {
   final String errorMessage;
-  CacheException({required this.errorMessage});
+  CacheExeption({required this.errorMessage});
 }
 
 class BadCertificateException extends ServerException {
@@ -98,15 +98,18 @@ handleDioException(DioException e) {
         case 504: // Bad request
 
           throw BadResponseException(
-              ErrorModel(status: 504, errorMessage: e.response!.data));
+            ErrorModel(status: 504, errorMessage: e.response!.data),
+          );
       }
 
     case DioExceptionType.cancel:
       throw CancelException(
-          ErrorModel(errorMessage: e.toString(), status: 500));
+        ErrorModel(errorMessage: e.toString(), status: 500),
+      );
 
     case DioExceptionType.unknown:
       throw UnknownException(
-          ErrorModel(errorMessage: e.toString(), status: 500));
+        ErrorModel(errorMessage: e.toString(), status: 500),
+      );
   }
 }

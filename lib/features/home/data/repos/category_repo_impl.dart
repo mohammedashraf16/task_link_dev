@@ -30,7 +30,7 @@ class CategoryRepoImpl extends CategoryRepo {
       try {
         final localCategory = await categoryLocalDataSource.getLastCategory();
         return Right(localCategory);
-      } on CacheException catch (e) {
+      } on CacheExeption catch (e) {
         return Left(Failure(errorMessage: e.errorMessage));
       }
     }

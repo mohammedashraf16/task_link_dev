@@ -6,7 +6,10 @@ class CategoryRemoteDataSource {
   final ApiConsumer apiConsumer;
   CategoryRemoteDataSource({required this.apiConsumer});
   Future<CategoryModel> getCategories() async {
-    final respose = await apiConsumer.get(EndPoints.category);
+    final respose = await apiConsumer.get(
+      EndPoints.category,
+      headers: {ApiKeys.lang: "ar"},
+    );
     return CategoryModel.fromJson(respose);
   }
 }
