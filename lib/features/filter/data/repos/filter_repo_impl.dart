@@ -20,14 +20,19 @@ class FilterRepoImpl extends FilterRepo {
     required int cityId,
     required String type,
     required String searchText,
+    int page = 1,
+    String? overrideUrl,
   }) async {
-    if (await networkInfo.isConnected!) {
+    final connected = await networkInfo.isConnected;
+    if (connected == true) {
       try {
         final remoteData = await filterRemoteDataSource.postCompanyFilter(
           subCategories: subCategories,
           cityId: cityId,
           type: type,
           searchText: searchText,
+          page: page,
+          overrideUrl: overrideUrl,
         );
         return Right(remoteData);
       } catch (e) {
@@ -38,4 +43,3 @@ class FilterRepoImpl extends FilterRepo {
     }
   }
 }
-

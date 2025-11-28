@@ -1,6 +1,5 @@
 part of 'filter_cubit.dart';
 
-
 abstract class FilterState extends Equatable {
   @override
   List<Object?> get props => [];
@@ -24,4 +23,13 @@ class FilterFailure extends FilterState {
 
   @override
   List<Object?> get props => [message];
+}
+
+/// Loading أثناء تحميل الصفحة التالية
+class FilterLoadingMore extends FilterState {
+  final FilterModel? model;
+  FilterLoadingMore({this.model});
+
+  @override
+  List<Object?> get props => [model];
 }

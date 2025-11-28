@@ -6,22 +6,29 @@ class FilterRemoteDataSource {
   final ApiConsumer apiConsumer;
 
   FilterRemoteDataSource({required this.apiConsumer});
+
+  /// page: optional (1-based). Or provide full nextPageUrl in `overrideUrl`.
   Future<FilterModel> postCompanyFilter({
     required List<int> subCategories,
     required int cityId,
     required String type,
     required String searchText,
+    int page = 1,
+    String? overrideUrl,
   }) async {
+    final data = {
+      "sub_categories": subCategories,
+      "city_id": cityId,
+      "type": type,
+      "search": searchText,
+      "page": page,
+    };
+
     final response = await apiConsumer.post(
-      EndPoints.filter,
+      overrideUrl ?? EndPoints.filter,
       headers: {ApiKeys.lang: "ar"},
       isFormData: true,
-      data: {
-        "sub_categories": subCategories,
-        "city_id": cityId,
-        "type": type,
-        "search": searchText,
-      },
+      data: data,
     );
     return FilterModel.fromJson(response);
   }

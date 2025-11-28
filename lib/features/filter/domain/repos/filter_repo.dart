@@ -8,5 +8,6 @@ abstract class FilterRepo {
     required int cityId,
     required String type,
     required String searchText,
+    required int page,
   });
 }
