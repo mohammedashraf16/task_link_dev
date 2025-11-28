@@ -25,7 +25,6 @@ class FilterFailure extends FilterState {
   List<Object?> get props => [message];
 }
 
-/// Loading أثناء تحميل الصفحة التالية
 class FilterLoadingMore extends FilterState {
   final FilterModel? model;
   FilterLoadingMore({this.model});

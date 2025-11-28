@@ -52,10 +52,8 @@ class _FilterModalState extends State<FilterModal> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // handle - top bar
             Container(width: 40, height: 4, color: Colors.grey[600]),
             const SizedBox(height: 12),
-            // filters: provider type
             Directionality(
               textDirection: TextDirection.rtl,
               child: Row(
@@ -109,7 +107,7 @@ class _FilterModalState extends State<FilterModal> {
                       final id = s.id!;
                       final selected = selectedSubCategories.contains(id);
                       return ChoiceChip(
-                        label: Text(s.name ?? ''),
+                        label: Text(s.name ?? '',style: GoogleFonts.cairo(fontSize: 16),),
                         selected: selected,
                         onSelected: (v) {
                           setState(() {
@@ -136,6 +134,7 @@ class _FilterModalState extends State<FilterModal> {
               children: [
                 Expanded(
                   child: SizedBox(
+                    width: double.infinity,
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(Color(0xff75A460))
@@ -146,17 +145,20 @@ class _FilterModalState extends State<FilterModal> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedSubCategories.clear();
-                        selectedCityId = 0;
-                        selectedType = 'office';
-                        widget.searchTextController.clear();
-                      });
-                    },
-                    child: Text('مسح الكل',style: GoogleFonts.cairo(),),
+                SizedBox(
+                  width: double.infinity,
+                  child: Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedSubCategories.clear();
+                          selectedCityId = 0;
+                          selectedType = 'office';
+                          widget.searchTextController.clear();
+                        });
+                      },
+                      child: Text('مسح الكل',style: GoogleFonts.cairo(),),
+                    ),
                   ),
                 ),
                 Spacer(),
